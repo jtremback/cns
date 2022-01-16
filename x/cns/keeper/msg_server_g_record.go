@@ -11,6 +11,11 @@ import (
 func (k msgServer) CreateGRecord(goCtx context.Context, msg *types.MsgCreateGRecord) (*types.MsgCreateGRecordResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// Check if the message creator is the governance appointed writer
+	if msg.Creator != k.GetParams(ctx).Writer {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "not authorized")
+	}
+
 	// Check if the value already exists
 	_, isFound := k.GetGRecord(
 		ctx,
@@ -36,18 +41,18 @@ func (k msgServer) CreateGRecord(goCtx context.Context, msg *types.MsgCreateGRec
 func (k msgServer) UpdateGRecord(goCtx context.Context, msg *types.MsgUpdateGRecord) (*types.MsgUpdateGRecordResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// Check if the message creator is the governance appointed writer
+	if msg.Creator != k.GetParams(ctx).Writer {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "not authorized")
+	}
+
 	// Check if the value exists
-	valFound, isFound := k.GetGRecord(
+	_, isFound := k.GetGRecord(
 		ctx,
 		msg.Key,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
-	}
-
-	// Checks if the the msg creator is the same as the current owner
-	if msg.Creator != valFound.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
 	var gRecord = types.GRecord{
@@ -64,18 +69,18 @@ func (k msgServer) UpdateGRecord(goCtx context.Context, msg *types.MsgUpdateGRec
 func (k msgServer) DeleteGRecord(goCtx context.Context, msg *types.MsgDeleteGRecord) (*types.MsgDeleteGRecordResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// Check if the message creator is the governance appointed writer
+	if msg.Creator != k.GetParams(ctx).Writer {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "not authorized")
+	}
+
 	// Check if the value exists
-	valFound, isFound := k.GetGRecord(
+	_, isFound := k.GetGRecord(
 		ctx,
 		msg.Key,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
-	}
-
-	// Checks if the the msg creator is the same as the current owner
-	if msg.Creator != valFound.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
 	k.RemoveGRecord(
