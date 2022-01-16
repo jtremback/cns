@@ -1,0 +1,16 @@
+syntax = "proto3";
+package jtremback.cns.cns;
+
+import "gogoproto/gogo.proto";
+import "cns/params.proto";
+import "cns/g_record.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/jtremback/cns/x/cns/types";
+
+// GenesisState defines the cns module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  repeated GRecord gRecordList = 2 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}

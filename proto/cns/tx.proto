@@ -1,0 +1,39 @@
+syntax = "proto3";
+package jtremback.cns.cns;
+
+import "cns/g_record.proto";
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/jtremback/cns/x/cns/types";
+
+// Msg defines the Msg service.
+service Msg {
+      rpc CreateGRecord(MsgCreateGRecord) returns (MsgCreateGRecordResponse);
+  rpc UpdateGRecord(MsgUpdateGRecord) returns (MsgUpdateGRecordResponse);
+  rpc DeleteGRecord(MsgDeleteGRecord) returns (MsgDeleteGRecordResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateGRecord {
+  string creator = 1;
+  string key = 2;
+
+  string value = 3;
+}
+message MsgCreateGRecordResponse {}
+
+message MsgUpdateGRecord {
+  string creator = 1;
+  string key = 2;
+
+  string value = 3;
+}
+message MsgUpdateGRecordResponse {}
+
+message MsgDeleteGRecord {
+  string creator = 1;
+  string key = 2;
+}
+message MsgDeleteGRecordResponse {}
+
+// this line is used by starport scaffolding # proto/tx/message

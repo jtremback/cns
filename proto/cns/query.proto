@@ -1,0 +1,59 @@
+syntax = "proto3";
+package jtremback.cns.cns;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "cns/params.proto";
+import "cns/g_record.proto";
+// this line is used by starport scaffolding # 1
+
+option go_package = "github.com/jtremback/cns/x/cns/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/jtremback/cns/cns/params";
+  }
+  // Queries a GRecord by index.
+	rpc GRecord(QueryGetGRecordRequest) returns (QueryGetGRecordResponse) {
+		option (google.api.http).get = "/jtremback/cns/cns/g_record/{key}";
+	}
+
+	// Queries a list of GRecord items.
+	rpc GRecordAll(QueryAllGRecordRequest) returns (QueryAllGRecordResponse) {
+		option (google.api.http).get = "/jtremback/cns/cns/g_record";
+	}
+
+// this line is used by starport scaffolding # 2
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetGRecordRequest {
+	  string key = 1;
+
+}
+
+message QueryGetGRecordResponse {
+	GRecord gRecord = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllGRecordRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllGRecordResponse {
+	repeated GRecord gRecord = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// this line is used by starport scaffolding # 3

@@ -1,0 +1,13 @@
+syntax = "proto3";
+package jtremback.cns.cns;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/jtremback/cns/x/cns/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+  string writer = 1 [(gogoproto.moretags) = "yaml:\"writer\""];
+}

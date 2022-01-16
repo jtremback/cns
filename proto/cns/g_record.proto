@@ -1,0 +1,11 @@
+syntax = "proto3";
+package jtremback.cns.cns;
+
+option go_package = "github.com/jtremback/cns/x/cns/types";
+
+message GRecord {
+  string key = 1; 
+  string value = 2; 
+  string creator = 3;
+}
+
